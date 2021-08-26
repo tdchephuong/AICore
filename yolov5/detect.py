@@ -123,12 +123,7 @@ def detect(weights='yolov5s.pt',  # model.pt path(s)
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
-                        # xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                        # --------------------------------
-                        xywh = (torch.tensor(xyxy).view(1, 4)).view(-1).tolist() 
-                        print(f"---- Convxyxyert: {int(xyxy[0].item())} {int(xyxy[1].item())} {int(xyxy[2].item())} {int(xyxy[3].item())}")
-                        int(xyxy[0].item())
-                        # --------------------------------
+                        xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
                         with open(txt_path + '.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')

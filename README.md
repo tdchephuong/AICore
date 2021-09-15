@@ -6,3 +6,5 @@ py -m debugpy --listen 5678 yolov5/detect.py --weights ModelTrained/best.pt --im
 python -m debugpy --listen 5678 yolov5/detect.py --weights ModelTrained/best.pt --img 720 --conf 0.5 --source Videos/Video_1.mp4 --save-txt
 
 python -m debugpy --listen 5678 yolov5/detect_Billard.py --weights ModelTrained/best.pt --img 720 --conf 0.5 --source Videos/Video_1.mp4
+
+py -m debugpy --listen 5678 .\billard\test\test_crop.py

@@ -1,7 +1,8 @@
+from billard.commons.swtich import to_order, to_ball_name
+from billard.commons.order import Order
 import cv2
 from billard.models.ball import Ball
 from billard.ultils.ultils import log_message, log_error
-from billard.models.billard import to_ball_name
 
 class Score:
 
@@ -25,6 +26,10 @@ class Score:
             current.sum_move_y = move_y
             current.moved = True
 
+        if current.order == 0:
+            order = Score.get_order()
+            current.order= order
+
     def cal_movement(current: Ball, next: Ball):
         move_x = Score.filter_motion(current.root_p.x, next.mid_p.x)
         move_y = Score.filter_motion(current.root_p.y, next.mid_p.y)
@@ -43,3 +48,16 @@ class Score:
         prev_cap.set(cv2.CAP_PROP_POS_FRAMES, frame)
         _, prev = prev_cap.read()
         # cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), prev)
+
+    def get_order():
+        order = 0
+        for k, v in Score.dict_balls.items():
+            data = to_order(int(v.order))
+            if data != 0 :
+                order = data
+
+        if order == 0:
+            return Order.FIRST
+        return order
+
+        

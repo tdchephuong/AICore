@@ -1,6 +1,6 @@
+from billard.commons.swtich import to_ball_name
 from torch._C import AnyType
 from billard.models.point import Point
-from billard.models.billard import to_ball_name
 
 class Ball:
 
@@ -22,6 +22,17 @@ class Ball:
         if self.moved:
             return "--- " + name + " ball has moved [X: " + str(self.sum_move_x) + ", Y: " + str(self.sum_move_y) + "]"
         return "***  " +name + " ball not moving !  ***" 
+    
+    def __iter__(self):
+        # first start by grabbing the Class items
+        iters = dict((x,y) for x,y in Ball.__dict__.items() if x[:2] != '__')
+
+        # then update the class items with the instance items
+        iters.update(self.__dict__)
+
+        # now 'yield' through the items
+        for x,y in iters.items():
+            yield x,y
 
     def get_midpoint(self, p1: Point, p2: Point, cls: int):
         return Point( (p1.x + p2.x)/2 , (p1.y + p2.y)/2 )

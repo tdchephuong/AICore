@@ -226,7 +226,7 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
     print(f'balls :')
     for i in Score.dict_balls:
         value = Score.dict_balls[i]
-        print(value)
+        print(str(value) + "order : " + str(value.order) )
 
 
 def parse_opt():

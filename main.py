@@ -1,8 +1,8 @@
 import argparse
+from colab.ultils import log_error, log_message, mkdir
 import os
 import shutil
 import sys
-from ultils.ultils import mkdir, log_error, log_message
 
 
 def initialize_test(source):

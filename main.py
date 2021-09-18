@@ -7,7 +7,7 @@ try:
     # Trying to find module in the parent package
     from colab.ultils import log_error, log_message, mkdir
 except ImportError:
-    from AICore.colab.ultils import log_error, log_message, mkdir
+    print('cant import ultils !')
 
 
 def initialize_test(source):

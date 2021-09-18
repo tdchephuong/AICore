@@ -8,14 +8,16 @@ class Ball:
         self.p1 = p1
         self.p2 = p2
         self.mid_p = Ball.get_midpoint(self, p1, p2, cls)
-        self.root_p = Ball.get_midpoint(self, p1, p2, 5)
+        self.root_p = Ball.get_midpoint(self, p1, p2, cls)
         self.sum_move_x = 0
         self.sum_move_y = 0
         self.moved = False
         self.cls = cls
+        self.half_width = self.mid_p.x - p2.x
         self.crop = crop
         self.radius = p2.x - self.root_p.x
         self.order = 0    # order of each balls
+        self.frame_moving = 0    # frame when object moved
     
     def __str__(self):
         name = to_ball_name(self.cls)

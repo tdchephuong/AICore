@@ -192,12 +192,7 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
                 p, s, im0, frame = path, '', im0s.copy(), getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            save_path = str(save_dir / p.name)  # img.jpg
-            txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
             s += '%gx%g ' % img.shape[2:]  # print string
-            gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
-            imc = im0.copy() if save_crop else im0  # for save_crop
-            annotator = Annotator(im0, line_width=line_thickness, pil=not ascii)
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
@@ -216,18 +211,30 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
                     ball = Ball(p1, p2, cls_value, crop)
                     ball_exist = Score.check_exist_or_add_ball(cls_value, ball)
                     if ball_exist:
-                        Score.cal_ball_move(cls_value, ball)
+                        Score.cal_ball_move(cls_value, ball, frame)
+
+                    # Start calc correlation first-third
+                    if Score.calc_correl:
+                        Score.cal_correlation(frame)
 
             # Print time (inference-only)
             print(f'{s}Done. ({t3 - t2:.3f}s)')
 
             
-    # Print results
-    print(f'balls :')
-    for i in Score.dict_balls:
-        value = Score.dict_balls[i]
-        print(str(value) + "order : " + str(value.order) )
-
+    # # Print results
+    # print(f'balls :')
+    # for k, value in Score.dict_balls.items():
+    #     print(str(value) + "order : " + str(value.order) )
+    
+    # Score
+    print(f'Score :')
+    print(f'Distance : ' + str(Score.distance_first_third))
+    if Score.third_ball and abs(Score.distance_first_third - Score.first_ball.half_width) <= 2:
+        print(f'Frame correl: ' + str(Score.frame_third_ball_corel) + " - Frame moving : " + str(Score.third_ball.frame_moving))
+        if  abs(Score.third_ball.frame_moving - Score.frame_third_ball_corel) <= 3:
+            print(f'Correllation first-third ball : touched.')
+    else :
+        print(f'*** Correllation first-third ball do not touche !!! ')
 
 def parse_opt():
     parser = argparse.ArgumentParser()

@@ -2,8 +2,12 @@ import argparse
 import os
 import shutil
 import sys
-from colab.ultils import log_error, log_message, mkdir
 
+try:
+    # Trying to find module in the parent package
+    from colab.ultils import log_error, log_message, mkdir
+except ImportError:
+    from AICore.colab.ultils import log_error, log_message, mkdir
 
 
 def initialize_test(source):

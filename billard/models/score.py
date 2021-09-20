@@ -31,13 +31,21 @@ class Score:
 
         distance = math.sqrt( (Score.third_ball.mid_p.x - Score.first_ball.mid_p.x)**2 + (Score.third_ball.mid_p.y - Score.first_ball.mid_p.y)**2 ) 
         
-        if distance < Score.distance_first_third:
+        if distance < Score.distance_first_third or Score.distance_first_third == 0:
             Score.distance_first_third = distance
             Score.frame_third_ball_corel = frame
+
+        if frame >= 97 and frame <= 107:
+            print("- First : " + str(Score.first_ball))
+            print("- Third : " + str(Score.third_ball))
+            print('--- Distance : ' + str(distance) + " Frame : " + str(frame))
 
     def cal_ball_move(cls: int, next: Ball, frame: int):
         current = Score.dict_balls[cls]
         move_x, move_y = Score.cal_movement(current, next)
+        if frame == 96:
+            print('')
+            
         if move_x > 2 :
             current.sum_move_x = move_x
             current.moved = True

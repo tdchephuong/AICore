@@ -212,24 +212,25 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
                     ball_exist = Score.check_exist_or_add_ball(cls_value, ball)
                     if ball_exist:
                         Score.cal_ball_move(cls_value, ball, frame)
+                        Score.dict_balls[cls_value].mid_p = ball.mid_p
 
-                    # Start calc correlation first-third
-                    if Score.calc_correl:
-                        Score.cal_correlation(frame)
+                # Start calc correlation first-third
+                if Score.calc_correl:
+                    Score.cal_correlation(frame)
 
             # Print time (inference-only)
-            print(f'{s}Done. ({t3 - t2:.3f}s)')
+            print(f'{s}Done. ({t3 - t2:.3f}s)' + " - frame : " + str(frame))
 
             
-    # # Print results
-    # print(f'balls :')
-    # for k, value in Score.dict_balls.items():
-    #     print(str(value) + "order : " + str(value.order) )
+    # Print results
+    print(f'balls :')
+    for k, value in Score.dict_balls.items():
+        print(str(value) + "order : " + str(value.order) )
     
     # Score
     print(f'Score :')
-    print(f'Distance : ' + str(Score.distance_first_third))
-    if Score.third_ball and abs(Score.distance_first_third - Score.first_ball.half_width) <= 2:
+    print(f'Distance : ' + str(Score.distance_first_third) + " Frame : " + str(Score.frame_third_ball_corel))
+    if Score.third_ball and Score.third_ball.moved:
         print(f'Frame correl: ' + str(Score.frame_third_ball_corel) + " - Frame moving : " + str(Score.third_ball.frame_moving))
         if  abs(Score.third_ball.frame_moving - Score.frame_third_ball_corel) <= 3:
             print(f'Correllation first-third ball : touched.')

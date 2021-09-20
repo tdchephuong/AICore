@@ -13,7 +13,7 @@ class Ball:
         self.sum_move_y = 0
         self.moved = False
         self.cls = cls
-        self.half_width = self.mid_p.x - p2.x
+        self.half_width = p2.x - self.mid_p.x
         self.crop = crop
         self.radius = p2.x - self.root_p.x
         self.order = 0    # order of each balls
@@ -21,9 +21,10 @@ class Ball:
     
     def __str__(self):
         name = to_ball_name(self.cls)
-        if self.moved:
-            return "--- " + name + " ball has moved [X: " + str(self.sum_move_x) + ", Y: " + str(self.sum_move_y) + "]"
-        return "***  " +name + " ball not moving !  ***" 
+        return "--- " + name + "[" + str(self.mid_p.x) + ", " + str(self.mid_p.y) + "]"
+        # if self.moved:
+        #     return "--- " + name + " ball has moved [X: " + str(self.sum_move_x) + ", Y: " + str(self.sum_move_y) + "]"
+        # return "***  " +name + " ball not moving !  ***" 
     
     def __iter__(self):
         # first start by grabbing the Class items

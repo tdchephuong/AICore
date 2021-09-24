@@ -141,19 +141,19 @@ def detect(weights='yolov5s.pt',  # model.pt path(s)
                     imagename = save_dir / 'frame' / names[cls_value] / f'{p.stem}-img.jpg'
                     cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), imc)
 
-                    # # # get/save crop image 
-                    # if dataset.frame >= 97 and dataset.frame <= 100:
-                    #     imagename = save_dir / 'crop' / names[cls_value] / f'{p.stem}-img.jpg'
-                    #     prev_cap = cv2.VideoCapture(source)
-                    #     for i in range(97, 100):
-                    #         prev_cap.set(cv2.CAP_PROP_POS_FRAMES, i)
-                    #         _, prev = prev_cap.read()
-                    #         cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), prev)
+                    # # get/save crop image 
+                    if dataset.frame >= 97 and dataset.frame <= 100:
+                        imagename = save_dir / 'crop' / names[cls_value] / f'{p.stem}-img.jpg'
+                        prev_cap = cv2.VideoCapture(source)
+                        for i in range(97, 100):
+                            prev_cap.set(cv2.CAP_PROP_POS_FRAMES, i)
+                            _, prev = prev_cap.read()
+                            cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), prev)
                         
-                    #     crop = get_crop(xyxy, imc)
-                    #     imagename = save_dir / 'crops' / names[cls_value] / f'{p.stem}-crop.jpg'
-                    #     cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), crop)
-                    # # --------------------------------
+                        crop = get_crop(xyxy, imc)
+                        imagename = save_dir / 'crops' / names[cls_value] / f'{p.stem}-crop.jpg'
+                        cv2.imwrite(str(increment_path(imagename, mkdir=True).with_suffix('.jpg')), crop)
+                    # --------------------------------
 
                     
                     p1 = Point(int(xyxy[0].item()), int(xyxy[1].item()))

@@ -8,20 +8,23 @@ class Ball:
         self.p1 = p1
         self.p2 = p2
         self.mid_p = Ball.get_midpoint(self, p1, p2, cls)
-        self.root_p = Ball.get_midpoint(self, p1, p2, 5)
+        self.root_p = Ball.get_midpoint(self, p1, p2, cls)
         self.sum_move_x = 0
         self.sum_move_y = 0
         self.moved = False
         self.cls = cls
+        self.half_width = p2.x - self.mid_p.x
         self.crop = crop
         self.radius = p2.x - self.root_p.x
         self.order = 0    # order of each balls
+        self.frame_moving = 0    # frame when object moved
     
     def __str__(self):
         name = to_ball_name(self.cls)
-        if self.moved:
-            return "--- " + name + " ball has moved [X: " + str(self.sum_move_x) + ", Y: " + str(self.sum_move_y) + "]"
-        return "***  " +name + " ball not moving !  ***" 
+        return "--- " + name + "[" + str(self.mid_p.x) + ", " + str(self.mid_p.y) + "]"
+        # if self.moved:
+        #     return "--- " + name + " ball has moved [X: " + str(self.sum_move_x) + ", Y: " + str(self.sum_move_y) + "]"
+        # return "***  " +name + " ball not moving !  ***" 
     
     def __iter__(self):
         # first start by grabbing the Class items

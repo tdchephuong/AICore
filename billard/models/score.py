@@ -35,17 +35,28 @@ class Score:
             Score.distance_first_third = distance
             Score.frame_third_ball_corel = frame
 
-        if frame >= 97 and frame <= 107:
-            print("- First : " + str(Score.first_ball))
-            print("- Third : " + str(Score.third_ball))
-            print('--- Distance : ' + str(distance) + " Frame : " + str(frame))
+        # if frame >= 97 and frame <= 107:
+        #     print("- First : " + str(Score.first_ball))
+        #     print("- Third : " + str(Score.third_ball))
+        #     print('--- Distance : ' + str(distance) + " Frame : " + str(frame))
+
+    def detect_ball_torch():
+        frame_closed = Score.get_distance_limit()
+        if Score.third_ball and Score.third_ball.moved:
+            print(f'Frame correl: ' + str(Score.frame_third_ball_corel) + " - Frame moving : " + str(Score.third_ball.frame_moving))
+            if  abs(Score.third_ball.frame_moving - Score.frame_third_ball_corel) <= frame_closed:
+                return True
+        return False
+
+    def get_distance_limit():
+        if Score.distance_first_third <= 23:
+            return 5
+        return 3
 
     def cal_ball_move(cls: int, next: Ball, frame: int):
         current = Score.dict_balls[cls]
         move_x, move_y = Score.cal_movement(current, next)
-        if frame == 96:
-            print('')
-            
+        
         if move_x > 2 :
             current.sum_move_x = move_x
             current.moved = True
@@ -86,19 +97,13 @@ class Score:
         order = 0
         for k, v in Score.dict_balls.items():
             data = to_order(int(v.order))
-            if data != 0 :
+            if data != 0 and  data > order:
                 order = data
 
         if order == 0:
             return Order.FIRST
         return order
 
-    # def set_third_ball():
-    #     for k, v in Score.dict_balls.items():
-    #         if int(v.order) == 0:
-    #             v.order = Order.THIRD
-    #             break
-    
     def get_ball_by_ord(order):
         for k, v in Score.dict_balls.items():
             if v.order == order:

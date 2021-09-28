@@ -229,11 +229,9 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
     
     # Score
     print(f'Score :')
-    print(f'Distance : ' + str(Score.distance_first_third) + " Frame : " + str(Score.frame_third_ball_corel))
-    if Score.third_ball and Score.third_ball.moved:
-        print(f'Frame correl: ' + str(Score.frame_third_ball_corel) + " - Frame moving : " + str(Score.third_ball.frame_moving))
-        if  abs(Score.third_ball.frame_moving - Score.frame_third_ball_corel) <= 3:
-            print(f'Correllation first-third ball : touched.')
+    print(f'Distance : ' + str(Score.distance_first_third) + " - Frame : " + str(Score.frame_third_ball_corel) + " - Width : " + str(Score.third_ball.half_width) ) 
+    if Score.detect_ball_torch():
+        print(f'Correllation first-third ball : touched.')
     else :
         print(f'*** Correllation first-third ball do not touche !!! ')
 

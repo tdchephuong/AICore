@@ -72,7 +72,14 @@ class Score:
                 current.frame_moving = frame
 
             current.order = order
-        
+
+    def reset_data():
+        Score.dict_balls = {}
+        Score.calc_correl = False
+        Score.first_ball = None
+        Score.third_ball = None
+        Score.frame_third_ball_corel = 0
+        Score.distance_first_third = 0
 
     def cal_movement(current: Ball, next: Ball):
         move_x = Score.filter_motion(current.root_p.x, next.mid_p.x)

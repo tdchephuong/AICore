@@ -132,7 +132,32 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
     if pt and device.type != 'cpu':
         model(torch.zeros(1, 3, *imgsz).to(device).type_as(next(model.parameters())))  # run once
     dt, seen = [0.0, 0.0, 0.0], 0
+    
+    current_path = ''
     for path, img, im0s, vid_cap in dataset:
+        if current_path == '':
+            current_path = path
+            print('---------- processing video : ' + str(path))
+            
+        if current_path != path :
+            current_path = path
+             # Print results
+            print(f'balls :')
+            for k, value in Score.dict_balls.items():
+                print(str(value) + "order : " + str(value.order) )
+            
+            # Score
+            print(f'Score :')
+            print(f'Distance : ' + str(Score.distance_first_third) + " - Frame : " + str(Score.frame_third_ball_corel) + " - Width : " + str(Score.third_ball.half_width) ) 
+            if Score.detect_ball_torch():
+                print(f'Correllation first-third ball : touched.')
+            else :
+                print(f'*** Correllation first-third ball do not touche !!! ')
+            
+            # start new videos 
+            Score.reset_data()
+            print('---------- processing video : ' + str(current_path))
+
         t1 = time_sync()
         if onnx:
             img = img.astype('float32')
@@ -219,16 +244,14 @@ def run(weights='yolov5s.pt',  # model.pt path(s)
                     Score.cal_correlation(frame)
 
             # Print time (inference-only)
-            print(f'{s}Done. ({t3 - t2:.3f}s)' + " - frame : " + str(frame))
-
-            
+            # print(f'{s}Done. ({t3 - t2:.3f}s)' + " - frame : " + str(frame))
+    
     # Print results
     print(f'balls :')
     for k, value in Score.dict_balls.items():
         print(str(value) + "order : " + str(value.order) )
     
     # Score
-    print(f'Score :')
     print(f'Distance : ' + str(Score.distance_first_third) + " - Frame : " + str(Score.frame_third_ball_corel) + " - Width : " + str(Score.third_ball.half_width) ) 
     if Score.detect_ball_torch():
         print(f'Correllation first-third ball : touched.')

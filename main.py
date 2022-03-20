@@ -17,7 +17,7 @@ def initialize(source):
     try:
         from google.colab import drive
     except ImportError as error:
-        log_error(error.__class__.__name__ + ": " + error.message)
+        log_error(error.__class__.__name__ + " import gg drive: " + error.message)
 
     # mount drive folder
     for i in range(3):

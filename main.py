@@ -54,9 +54,9 @@ if __name__ == '__main__':
     try:
         from decouple import config
 
-        local = config('LOCAL')
-        if local == '1':
-            initialize_test(**vars(opt))
+        #local = config('LOCAL')
+        #if local == '1':
+        #    initialize_test(**vars(opt))
 
     except ImportError as error:
         log_message("--- We are run in PROD ---")
